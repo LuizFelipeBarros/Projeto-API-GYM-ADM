@@ -197,6 +197,7 @@ function prepararEdicao(id) {
         document.getElementById('alunoId').value = aluno.id;
         document.getElementById('nome').value = aluno.nome;
         document.getElementById('cpf').value = aluno.cpf;
+        mascaraCPF(document.getElementById('cpf')); // Aplica a formatação ao CPF
         document.getElementById('status').value = aluno.status;
 
         formTitle.textContent = "Editar Cliente";
