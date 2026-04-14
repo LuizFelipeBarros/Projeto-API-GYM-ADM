@@ -44,8 +44,7 @@
                 <!-- ⚛️ CONDITIONAL RENDERING: No React, este elemento só seria renderizado baseando-se no estado. 
                      Exemplo: {isLoggedIn && <div id="userInfo">...</div>} ou {isLoggedIn && <UserInfo />} -->
                 <div id="userInfo" class="hidden flex items-center gap-4">
-                    <span id="userEmail" class="text-sm font-medium"></span>
-                    <button id="btnLogout" class="bg-white text-indigo-600 hover:bg-gray-100 px-4 py-2 rounded-md text-sm font-medium transition duration-200">
+                    <button id="btnLogout" class="bg-red-500 text-white hover:bg-red-600 px-4 py-2 rounded-md text-sm font-medium transition duration-200">
                         <i class="fas fa-sign-out-alt mr-2"></i>Sair
                     </button>
                 </div>
@@ -97,6 +96,7 @@
                         <p id="totalAlunos" class="text-2xl font-bold text-gray-800">0</p>
                     </div>
                 </div>
+
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8">
@@ -176,6 +176,7 @@
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CPF</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Último Acesso</th>
                                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
                                     </tr>
                                 </thead>

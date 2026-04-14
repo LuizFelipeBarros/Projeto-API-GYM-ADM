@@ -23,6 +23,7 @@ const tabelaAlunos = document.getElementById('tabelaAlunos');
 const totalAlunosEl = document.getElementById('totalAlunos');
 const btnCancelar = document.getElementById('btnCancelar');
 const formTitle = document.getElementById('formTitle');
+const userInfo = document.getElementById('userInfo');
 
 // ==========================================
 // ESTADO DA APLICAÇÃO
@@ -47,6 +48,28 @@ function mascaraCPF(input) {
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
     input.value = value;
+}
+
+// Função auxiliar para formatar CPF string
+function formatarCPF(cpf) {
+    let value = cpf.replace(/\D/g, "");
+    if (value.length !== 11) return cpf; // Retorna original se não tiver 11 dígitos
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    return value;
+}
+
+// Função para formatar data e hora
+function formatarData(data) {
+    if (!data) return 'Nunca acessou';
+    const dataObj = new Date(data);
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+    const ano = dataObj.getFullYear();
+    const horas = String(dataObj.getHours()).padStart(2, '0');
+    const minutos = String(dataObj.getMinutes()).padStart(2, '0');
+    return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
 }
 
 // ==========================================
@@ -128,12 +151,17 @@ function renderizarTabela() {
         const tr = document.createElement('tr');
         // Define a cor baseada no status
         const statusClass = aluno.status === 'ATIVO' ? 'text-green-600' : 'text-red-600';
+        // Formata o CPF para exibição
+        const cpfFormatado = formatarCPF(aluno.cpf);
+        // Formata a data do último acesso
+        const ultimoAcesso = aluno.ultimoAcesso ? formatarData(aluno.ultimoAcesso) : 'Nunca acessou';
         
         tr.innerHTML = `
             <td class="px-6 py-4 text-sm text-gray-800">${aluno.id}</td>
             <td class="px-6 py-4 text-sm text-gray-800 font-bold">${aluno.nome}</td>
-            <td class="px-6 py-4 text-sm text-gray-600">${aluno.cpf}</td>
+            <td class="px-6 py-4 text-sm text-gray-600">${cpfFormatado}</td>
             <td class="px-6 py-4 text-sm ${statusClass} font-medium">${aluno.status}</td>
+            <td class="px-6 py-4 text-sm text-gray-600">${ultimoAcesso}</td>
             <td class="px-6 py-4 text-right text-sm font-medium">
                 <button onclick="prepararEdicao(${aluno.id})" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</button>
                 <button onclick="deletarAluno(${aluno.id})" class="text-red-600 hover:text-red-900">Excluir</button>
@@ -152,7 +180,8 @@ alunoForm.addEventListener('submit', async (e) => {
 
     const id = document.getElementById('alunoId').value; // Campo hidden para o ID
     const nome = document.getElementById('nome').value;
-    const cpf = document.getElementById('cpf').value; // Mantém a formatação: 123.456.789-00
+    const cpfComMascara = document.getElementById('cpf').value;
+    const cpf = cpfComMascara.replace(/\D/g, ""); // Remove a formatação: 123.456.789-00 => 12345678900
     const status = document.getElementById('status').value;
 
     const alunoData = { nome, cpf, status };
@@ -196,8 +225,7 @@ function prepararEdicao(id) {
     if (aluno) {
         document.getElementById('alunoId').value = aluno.id;
         document.getElementById('nome').value = aluno.nome;
-        document.getElementById('cpf').value = aluno.cpf;
-        mascaraCPF(document.getElementById('cpf')); // Aplica a formatação ao CPF
+        document.getElementById('cpf').value = formatarCPF(aluno.cpf); // Formata e carrega o CPF
         document.getElementById('status').value = aluno.status;
 
         formTitle.textContent = "Editar Cliente";
@@ -242,11 +270,13 @@ async function deletarAluno(id) {
 function mostrarPainelAdmin() {
     loginSection.classList.add('hidden');
     adminSection.classList.remove('hidden');
+    userInfo.classList.remove('hidden');
 }
 
 function mostrarLogin() {
     loginSection.classList.remove('hidden');
     adminSection.classList.add('hidden');
+    userInfo.classList.add('hidden');
 }
 
 // Inicia o fluxo
