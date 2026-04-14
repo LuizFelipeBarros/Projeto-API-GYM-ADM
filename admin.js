@@ -193,6 +193,24 @@ function renderizarTabela() {
 alunoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const id = document.getElementById('alunoId').value;
+    const nome = document.getElementById('nome').value.trim();
+    const cpfComMascara = document.getElementById('cpf').value;
+    const cpf = cpfComMascara.replace(/\D/g, "");
+    const status = document.getElementById('status').value;
+
+    // Validação: Nome obrigatório
+    if (!nome || nome.length === 0) {
+        alert("O nome é obrigatório!");
+        return;
+    }
+
+    // Validação: CPF deve ter exatamente 11 dígitos
+    if (cpf.length !== 11) {
+        alert("O CPF deve ter exatamente 11 dígitos!");
+        return;
+    }
+
     // Prevenir múltiplos cliques
     if (isSubmitting) return;
     isSubmitting = true;
@@ -205,13 +223,6 @@ alunoForm.addEventListener('submit', async (e) => {
     btnSubmit.disabled = true;
     btnSubmit.classList.add('opacity-70', 'cursor-not-allowed');
     btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Salvando...';
-
-    const id = document.getElementById('alunoId').value;
-    const nome = document.getElementById('nome').value;
-    const cpfComMascara = document.getElementById('cpf').value; // 123.456.789-00
-    const cpf = cpfComMascara.replace(/\D/g, ""); // Remove formatação: 12345678900
-    const status = document.getElementById('status').value;
-
     const alunoData = { nome, cpf, status };
 
     try {
