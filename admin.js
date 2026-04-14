@@ -30,6 +30,7 @@ const userInfo = document.getElementById('userInfo');
 // ==========================================
 let tokenAtual = localStorage.getItem('adminToken') || null;
 let listaAlunos = [];
+let isSubmitting = false; // Controla se há requisição em andamento
 
 function iniciarApp() {
     if (tokenAtual) {
@@ -185,6 +186,19 @@ function renderizarTabela() {
 alunoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    // Prevenir múltiplos cliques
+    if (isSubmitting) return;
+    isSubmitting = true;
+
+    // Obter referência do botão de submit
+    const btnSubmit = alunoForm.querySelector('button[type="submit"]');
+    const textoBotao = btnSubmit.innerHTML;
+    
+    // Desabilitar botão e mostrar animação
+    btnSubmit.disabled = true;
+    btnSubmit.classList.add('opacity-70', 'cursor-not-allowed');
+    btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Salvando...';
+
     const id = document.getElementById('alunoId').value;
     const nome = document.getElementById('nome').value;
     const cpfComMascara = document.getElementById('cpf').value; // 123.456.789-00
@@ -223,6 +237,12 @@ alunoForm.addEventListener('submit', async (e) => {
     } catch (erro) {
         console.error("Erro ao salvar aluno:", erro);
         alert("Erro ao salvar: " + erro.message);
+    } finally {
+        // Reabilitar botão e restaurar texto
+        isSubmitting = false;
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
+        btnSubmit.innerHTML = textoBotao;
     }
 });
 
