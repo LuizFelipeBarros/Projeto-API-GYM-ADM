@@ -41,11 +41,12 @@ function iniciarApp() {
     }
 }
 
-// Mascara de CPF para o campo de entrada (Apenas números, sem limite)
+// Mascara de CPF para o campo de entrada (Apenas 11 números)
 function mascaraCPF(input) {
     let value = input.value.replace(/\D/g, ""); // Remove qualquer coisa que não seja número
-    // Aplica formatação básica conforme digitação
-    if (value.length >= 4) {
+    if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
+    // Aplica formatação: 123.456.789-00
+    if (value.length >= 3) {
         value = value.slice(0, 3) + '.' + value.slice(3);
     }
     if (value.length >= 8) {
@@ -57,34 +58,24 @@ function mascaraCPF(input) {
     input.value = value;
 }
 
-// Função auxiliar para formatar CPF string (Flexível para qualquer quantidade de números)
+// Função auxiliar para formatar CPF string (11 dígitos)
 function formatarCPF(cpf) {
     let value = cpf.replace(/\D/g, "");
-    if (value.length === 0) return cpf; // Retorna original se vazio
-    // Se tiver menos de 3 dígitos, retorna como está
-    if (value.length < 3) return value;
-    // Formata conforme quantidade de dígitos
-    if (value.length <= 6) {
-        return value.slice(0, 3) + '.' + value.slice(3);
-    }
-    if (value.length <= 9) {
-        return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6);
-    }
-    return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' + value.slice(9);
+    if (value.length !== 11) return cpf; // Retorna original se não tiver 11 dígitos
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    return value;
 }
 
-// Função para garantir que o CPF está formatado (Flexível para qualquer quantidade)
+// Função para garantir que o CPF está formatado (11 dígitos)
 function garantirCPFFormatado(cpf) {
     let value = String(cpf).replace(/\D/g, ""); // Remove tudo que não é dígito
-    if (value.length === 0) return cpf; // Retorna original se vazio
-    if (value.length < 3) return value;
-    if (value.length <= 6) {
-        return value.slice(0, 3) + '.' + value.slice(3);
-    }
-    if (value.length <= 9) {
-        return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6);
-    }
-    return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' + value.slice(9);
+    if (value.length !== 11) return cpf; // Retorna original se não for 11 dígitos
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    return value;
 }
 
 // Função para formatar data e hora
