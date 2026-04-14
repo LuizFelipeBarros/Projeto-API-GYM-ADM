@@ -41,34 +41,50 @@ function iniciarApp() {
     }
 }
 
-// Mascara de CPF para o campo de entrada
+// Mascara de CPF para o campo de entrada (Apenas números, sem limite)
 function mascaraCPF(input) {
-    let value = input.value.replace(/\D/g, "");
-    if (value.length > 11) value = value.slice(0, 11);
-    value = value.replace(/(\d{3})(\d)/, "$1.$2");
-    value = value.replace(/(\d{3})(\d)/, "$1.$2");
-    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    let value = input.value.replace(/\D/g, ""); // Remove qualquer coisa que não seja número
+    // Aplica formatação básica conforme digitação
+    if (value.length >= 4) {
+        value = value.slice(0, 3) + '.' + value.slice(3);
+    }
+    if (value.length >= 8) {
+        value = value.slice(0, 7) + '.' + value.slice(7);
+    }
+    if (value.length >= 12) {
+        value = value.slice(0, 11) + '-' + value.slice(11);
+    }
     input.value = value;
 }
 
-// Função auxiliar para formatar CPF string
+// Função auxiliar para formatar CPF string (Flexível para qualquer quantidade de números)
 function formatarCPF(cpf) {
     let value = cpf.replace(/\D/g, "");
-    if (value.length !== 11) return cpf; // Retorna original se não tiver 11 dígitos
-    value = value.replace(/(\d{3})(\d)/, "$1.$2");
-    value = value.replace(/(\d{3})(\d)/, "$1.$2");
-    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    return value;
+    if (value.length === 0) return cpf; // Retorna original se vazio
+    // Se tiver menos de 3 dígitos, retorna como está
+    if (value.length < 3) return value;
+    // Formata conforme quantidade de dígitos
+    if (value.length <= 6) {
+        return value.slice(0, 3) + '.' + value.slice(3);
+    }
+    if (value.length <= 9) {
+        return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6);
+    }
+    return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' + value.slice(9);
 }
 
-// Função para garantir que o CPF está formatado (para salvar com formatação)
+// Função para garantir que o CPF está formatado (Flexível para qualquer quantidade)
 function garantirCPFFormatado(cpf) {
     let value = String(cpf).replace(/\D/g, ""); // Remove tudo que não é dígito
-    if (value.length !== 11) return cpf; // Retorna original se não for 11 dígitos
-    value = value.replace(/(\d{3})(\d)/, "$1.$2");
-    value = value.replace(/(\d{3})(\d)/, "$1.$2");
-    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    return value;
+    if (value.length === 0) return cpf; // Retorna original se vazio
+    if (value.length < 3) return value;
+    if (value.length <= 6) {
+        return value.slice(0, 3) + '.' + value.slice(3);
+    }
+    if (value.length <= 9) {
+        return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6);
+    }
+    return value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' + value.slice(9);
 }
 
 // Função para formatar data e hora
