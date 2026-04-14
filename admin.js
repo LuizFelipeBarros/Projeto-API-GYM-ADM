@@ -153,15 +153,12 @@ function renderizarTabela() {
         const statusClass = aluno.status === 'ATIVO' ? 'text-green-600' : 'text-red-600';
         // Formata o CPF para exibição
         const cpfFormatado = formatarCPF(aluno.cpf);
-        // Formata a data do último acesso
-        const ultimoAcesso = aluno.ultimoAcesso ? formatarData(aluno.ultimoAcesso) : 'Nunca acessou';
         
         tr.innerHTML = `
             <td class="px-6 py-4 text-sm text-gray-800">${aluno.id}</td>
             <td class="px-6 py-4 text-sm text-gray-800 font-bold">${aluno.nome}</td>
             <td class="px-6 py-4 text-sm text-gray-600">${cpfFormatado}</td>
             <td class="px-6 py-4 text-sm ${statusClass} font-medium">${aluno.status}</td>
-            <td class="px-6 py-4 text-sm text-gray-600">${ultimoAcesso}</td>
             <td class="px-6 py-4 text-right text-sm font-medium">
                 <button onclick="prepararEdicao(${aluno.id})" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</button>
                 <button onclick="deletarAluno(${aluno.id})" class="text-red-600 hover:text-red-900">Excluir</button>
