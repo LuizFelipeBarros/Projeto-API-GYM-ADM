@@ -152,8 +152,7 @@ alunoForm.addEventListener('submit', async (e) => {
 
     const id = document.getElementById('alunoId').value; // Campo hidden para o ID
     const nome = document.getElementById('nome').value;
-    const cpfComMascara = document.getElementById('cpf').value;
-    const cpf = cpfComMascara.replace(/\D/g, ""); // Remove máscara: 123.456.789-00 => 12345678900
+    const cpf = document.getElementById('cpf').value; // Mantém a formatação: 123.456.789-00
     const status = document.getElementById('status').value;
 
     const alunoData = { nome, cpf, status };
