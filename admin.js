@@ -60,6 +60,16 @@ function formatarCPF(cpf) {
     return value;
 }
 
+// Função para garantir que o CPF está formatado (para salvar com formatação)
+function garantirCPFFormatado(cpf) {
+    let value = String(cpf).replace(/\D/g, ""); // Remove tudo que não é dígito
+    if (value.length !== 11) return cpf; // Retorna original se não for 11 dígitos
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d)/, "$1.$2");
+    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    return value;
+}
+
 // Função para formatar data e hora
 function formatarData(data) {
     if (!data) return 'Nunca acessou';
@@ -175,9 +185,10 @@ function renderizarTabela() {
 alunoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const id = document.getElementById('alunoId').value; // Campo hidden para o ID
+    const id = document.getElementById('alunoId').value;
     const nome = document.getElementById('nome').value;
-    const cpf = document.getElementById('cpf').value; // Mantém a formatação: 123.456.789-00
+    const cpfComMascara = document.getElementById('cpf').value; // 123.456.789-00
+    const cpf = cpfComMascara.replace(/\D/g, ""); // Remove formatação: 12345678900
     const status = document.getElementById('status').value;
 
     const alunoData = { nome, cpf, status };
