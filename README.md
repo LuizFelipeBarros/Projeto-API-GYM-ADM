@@ -25,15 +25,45 @@ Um painel administrativo moderno e responsivo para gerenciar clientes de uma aca
 - Navegador moderno (Chrome, Firefox, Safari, Edge)
 - Acesso à API em: `https://api-academia-xi.vercel.app/`
 
-## 🚀 Como Usar
+## � Instalação
 
-### 1. Abra o arquivo no navegador
+### Opção 1: Usar a versão Online (Recomendado)
+Acesse diretamente a aplicação online:
+- **🔗 [https://projeto-api-gym-adm.vercel.app/](https://projeto-api-gym-adm.vercel.app/)**
+
+### Opção 2: Rodar Localmente
+
+#### Windows
 ```bash
-# Simplesmente abra o arquivo index.html em seu navegador
-# Ou use um servidor local:
+# 1. Abra o Prompt de Comando ou PowerShell
+# 2. Navegue até o diretório do projeto
+cd "caminho\para\Projeto API GYM ADM"
+
+# 3. Inicie um servidor local (Python)
 python -m http.server 8000
-# Depois acesse: http://localhost:8000
+
+# 4. Abra no navegador: http://localhost:8000
 ```
+
+#### Mac/Linux
+```bash
+# 1. Abra o Terminal
+# 2. Navegue até o diretório do projeto
+cd /caminho/para/Projeto\ API\ GYM\ ADM
+
+# 3. Inicie um servidor local
+python -m http.server 8000
+# ou
+python3 -m http.server 8000
+
+# 4. Abra no navegador: http://localhost:8000
+```
+
+#### Alternativa: Abrir diretamente
+- Localize o arquivo `index.html`
+- Clique com o botão direito e escolha "Abrir com" > seu navegador
+
+## 🚀 Como Usar
 
 ### 2. Faça Login
 - Insira suas credenciais (usuário e senha)
