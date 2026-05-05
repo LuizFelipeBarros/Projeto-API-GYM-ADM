@@ -142,7 +142,7 @@ const API_BASE_URL = 'https://api-academia-xi.vercel.app/';
 - ✅ Tablet
 - ✅ Mobile
 
-## 👨‍💻 Desenvolvido por
+## 👨‍💻 Desenvolvido por Luiz Felipe e Pedro Vas.
 
 Fit Deploy Academy Admin Panel
 
